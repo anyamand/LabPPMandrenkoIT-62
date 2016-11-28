@@ -1,20 +1,9 @@
 'use strict';
 const fs = require('fs');
-/*const util = require('util');
-const log_file = fs.createWriteStream(__dirname + '/laba_pp.log', {flags : 'w'});
-const log_stdout = process.stdout;
-
-console.log = function() {
-	for (let i = 0; i < arguments.length; i++) {
-  		log_file.write(util.format(arguments[i]) + '\n');
-  		log_stdout.write(util.format(arguments[i]) + '\n');
-	}
-};*/
-
 const shemsya = {};
 
 ((o) => {
-
+	
 	let Data = [
 		"Пифагор",
 		"Гипократ",
