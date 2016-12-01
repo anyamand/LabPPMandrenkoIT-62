@@ -1,105 +1,56 @@
 'use strict';
-const fs = require('fs');
-/*const util = require('util');
-const log_file = 
-fs.createWriteStream(__dirname + '/laba_pp.log', {flags : 'w'});
-const log_stdout = process.stdout;
+const userInterface = {};
+let array = [
+    "Пифагор",
+    "Гипократ",
+    "Евклид",
+    "Архимед",
+    "Николай Коперник",
+    "Теофаст Парацельс",
+    "Андреас Везалий",
+    "Франсуа Виет",
+    "Галилео Галилей",
+    "Иоганн Кеплер",
+    "Вильям Гарвей",
+    "Рене Декарт",
+    "Пьер Ферма",
+    "Блез Паскаль",
+    "Роберт Бойль",
+    "Христиан Гюгенс",
+    "Антони ван Левенгук",
+    "Исаак Ньютон",
+    "Готфрид Лейбниц",
+    "Карл Линней",
+    "Леонард Эйлер",
+    "Михаил Васильевич Ломоносов",
+    "Адам Смит",
+    "Шарль Кулон",
+    "Вильям Гершель"
+];
 
-console.log = function() {
-  for (let i = 0; i < arguments.length; i++) {
-      log_file.write(util.format(arguments[i]) + '\n');
-      log_stdout.write(util.format(arguments[i]) + '\n');
-  }
-};*/
+console.log('Отфильтрованый массив:\n\n',
+	array.filter((element) => element[0] >= 'А' && element[0] <= 'Я'));
+        			
+console.log('Отсортированый массив:\n\n', array.sort((a, b) => {
+    if (a > b) return 1;
+    if (a < b) return -1;
+}));
 
-const shemsya = {};
+console.log('Массивы кодов символов:\n\n',
+	array.map((e) => e.split('').map((c) => c.charCodeAt(0))),'\n\n');
+
+console.log('Массивы слов в строках:\n\n',
+	array.map((e) => e.split(/[\s\t]+/)), '\n\n');
 
 ((o) => {
-  
-  let mockData = [
-    'Пифагор',
-    'Гипократ',
-    'Евклид',
-    'Архимед',
-    'Николай Коперник',
-    'Теофаст Парацельс',
-    'Андреас Везалий',
-    'Франсуа Виет',
-    'Галилео Галилей',
-    'Иоганн Кеплер',
-    'Вильям Гарвей',
-    'Рене Декарт',
-    'Пьер Ферма',
-    'Блез Паскаль',
-    'Роберт Бойль',
-    'Христиан Гюгенс',
-    'Антони ван Левенгук',
-    'Исаак Ньютон',
-    'Готфрид Лейбниц',
-    'Карл Линней',
-    'Леонард Эйлер',
-    'Михаил Васильевич Ломоносов',
-    'Аадам Смит',
-    'Шарль Кулон',
-    'Вильям Гершель'
-  ];
-  
-  let array = mockData.slice(0);
-  
-  o.getArray = () => array.slice(0);
-  
-  o.filterArray = (criteria) => {
-    if (criteria !== undefined) {      
-      array = array.filter(criteria);
-    } else {
-      array = array.filter(element => element[0] >= 'А' && element[0] <= 'Я');
-    }
-  };
-  
-  o.sortArray = (criteria) => {
-    if (criteria !== undefined) {
-      array.sort(criteria);
-    } else {      
-      array.sort((a, b) => {
-        if (a > b) return 1;
-        if (a < b) return -1;
-      });
-    }
-  }
-  
-  o.toCharCodeArrays = () => {
-    return array.map((e) => e.split('').map((c) => c.charCodeAt(0)));
-  }
-  
-  o.toWordArrays = () => array.map((e) => e.split(/[\s\t]+/));
-  
-  o.reinitArray = () => {
-    array = mockData.slice(0);
-  }
-  
-  o.searchSubstring = (substr) => {
-    return array.slice(0).filter(element => element.indexOf(substr) > -1);
-  }
-  
-  o.searchContainsInText = (text) => {
-    return array.slice(0).filter(element => text.indexOf(element) > -1);
-  }
-  
-})(shemsya);
+    o.searchSubstring = (substr) => array.slice(0)
+        .filter((element) => element.indexOf(substr) > -1); 
 
-//console.log('shemsya.getArray():\n\n', shemsya.getArray(), '\n\n');
+    o.searchContainsInText = (text) => array.slice(0)
+        .filter((element) => text.indexOf(element) > -1);
+})(userInterface);
 
-//shemsya.filterArray();
-//console.log('shemsya.filterArray() then shemsya.getArray():\n\n', 
-//shemsya.getArray(), '\n\n');
-
-//shemsya.sortArray();
-//console.log('shemsya.sortArray() then shemsya.getArray():\n\n', 
-//shemsya.getArray(), '\n\n');
-
-//console.log('shemsya.toCharCodeArrays():\n\n', 
-//shemsya.toCharCodeArrays(), '\n\n');
-
-//console.log('shemsya.toWordArrays():\n\n', shemsya.toWordArrays(), '\n\n');
-console.log('shemsya.searchSubstring():\n\n', 
-shemsya.searchSubstring('Николай'), '\n\n');
+console.log('shemsya.searchSubstring():\n\n',
+    userInterface.searchSubstring('Николай'), '\n\n');
+console.log('searchContainsInText(text):\n\n',
+    userInterface.searchContainsInText('Адам Смит родился в Шотландии'), '\n\n');
