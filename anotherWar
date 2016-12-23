@@ -1,0 +1,86 @@
+'use strict';
+let array = [
+    "Окрошка",
+    "Борщ",
+    "Пицца",
+    "Плов",
+    "Фаршированый перец",
+    "Крем-суп с грибами",
+    "Котлеты",
+
+
+];
+console.log('Отфильтрованный массив:\n\n', 
+    array.filter((element) => element.indexOf(" ") !== -1), '\n\n');
+console.log('Отсортированный массив:\n\n', array.sort((a, b) => {
+    if (a.length > b.length) return 1;
+    if (a.length < b.length) return -1;
+}));
+//console.log('Массив дифтонгов:\n\n', array.map((e) => {
+//   return e.split('');
+  //  e.filter((x) => x !== 'е' || x !== 'ю' || x !== 'я' || x !== 'ё');
+//}));
+let data = "Задание №5 Текст задания: Создать API для работы с массивом Вариант: хеширование и поиск по хешу Вариант: шифрование и дешифрование".split(' ');
+
+let myArrayAPI = {};
+
+((api) => {
+    // http://stackoverflow.com/questions/7616461/generate-a-hash-from-string-in-javascript-jquery
+    let makeHash = (str) => {
+        let hash = 0;        
+        for (let i = 0; i < str.length; i++) {
+            let chr = str.charCodeAt(i);
+            hash  = ((hash << 5) - hash) + chr;
+            hash |= 0; // Convert to 32bit integer
+        }
+        return hash;
+    }
+    
+    let pseudoHashMap = {};
+    
+    api.isPresent = (str) => pseudoHashMap[makeHash(str)] !== undefined;
+    
+    api.add = (str) => pseudoHashMap[makeHash(str)] = str;
+    
+    api.remove = (str) => pseudoHashMap[makeHash(str)] = udefined;
+    
+    api.searchByHash = (hash) => pseudoHashMap[hash];
+    
+    api.getMap = () => JSON.parse(JSON.stringify(pseudoHashMap));
+    
+    api.encrypt = (str) => {        
+        return str.split('').map((c) => {
+            let hex = c.charCodeAt(0).toString(16);
+            hex = hex.length + hex;
+            return hex;
+        }).reduce((a, b) => a + b);
+    };
+    
+    api.decrypt = (str) => {
+        let chars = str.split('');
+        let decrypted = [];
+        for (let i = 0; i < chars.length;) {
+            let chunkSize = Number(chars[i]);
+            let chunk = '';
+            for (let j = 0; j < chunkSize; j++) {
+                chunk += chars[i + 1 + j]; // 2 is very special magic number, just belive pls...
+            }
+            decrypted.push(String.fromCharCode(parseInt(chunk, 16)));
+            i += chunkSize + 1;
+        }        
+        return decrypted.reduce((a, b) => a + b);
+    };
+    
+})(myArrayAPI);
+
+console.log('Hashing demo');
+array.forEach((w) => { 
+    if (myArrayAPI.isPresent(w)) return console.log(w,' is already present');
+    myArrayAPI.add(w);
+});
+console.log('Map trace: ', myArrayAPI.getMap());
+
+console.log('Encrypt/Decrypt demo');
+array.forEach((w) => {     
+    console.log(w,' =(encrypted)=> ',myArrayAPI.encrypt(w),' =(decrypted)=> ', myArrayAPI.decrypt(myArrayAPI.encrypt(w)));
+});
